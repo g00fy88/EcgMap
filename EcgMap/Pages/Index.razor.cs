@@ -44,7 +44,6 @@ namespace EcgMap.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            IJSON result = new JSONOf(new ResourceOf("mapLocationsHamburg.json", typeof(Program)));
             var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
             if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("locationsUrl", out var jsonUrls))
             {
@@ -56,7 +55,8 @@ namespace EcgMap.Pages
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         var text = await response.Content.ReadAsStringAsync();
-                        this.Locations = new JsonLocations(new JSONOf(text));
+                        var result = new JSONOf(text);
+                        this.Locations = new JsonLocations(result);
                         await Task.Run(async () =>
                         {
                             while (this.mapRef == null)

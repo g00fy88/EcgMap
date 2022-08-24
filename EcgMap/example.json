@@ -1,0 +1,33 @@
+﻿{
+  "center": {
+    "lon": 9.9617,
+    "lat": 53.5596,
+    "zoom": 10
+  },
+  "locations": [
+    {
+      "title": "GWÖ Hamburg",
+      "description": "Büro der GWÖ Hamburg",
+      "kind": "text",
+      "type": "main",
+      "imageUrl": "",
+      "imageWidth": 0,
+      "link": "",
+      "email": "",
+      "lon": 9.9617,
+      "lat": 53.5596
+    },
+    {
+      "title": "Ecg Company",
+      "description": "Nice Description for the company",
+      "kind": "image",
+      "type": "company",
+      "imageUrl": "https://www.ecogood.org/wp-content/uploads/2020/04/ecogood_logo_250x65@2x.png",
+      "imageWidth": 100,
+      "link": "https://www.ecogood.org/",
+      "email": "",
+      "lon": 9.96136,
+      "lat": 53.53613
+    }
+  ]
+}
