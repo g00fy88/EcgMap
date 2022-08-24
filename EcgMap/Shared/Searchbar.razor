@@ -1,0 +1,22 @@
+﻿<MudTextField
+    @bind-Value="@_searchString"
+    DebounceInterval="500" 
+    OnDebounceIntervalElapsed="HandleIntervalElapsed" 
+    Placeholder="Suche"
+    Adornment="Adornment.Start" 
+    AdornmentIcon="@Icons.Material.Filled.Search"
+    IconSize="Size.Medium" 
+    Style="width:100%; margin-top:0px;"
+></MudTextField>
+
+@code {
+    [Parameter]
+    public EventCallback<string> Search { get; set; } = new EventCallback<string>();
+
+    private string _searchString = "";
+
+    public async Task HandleIntervalElapsed(string text)
+    {
+        await this.Search.InvokeAsync(text);
+    }
+}

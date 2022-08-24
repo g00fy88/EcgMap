@@ -1,0 +1,17 @@
+﻿<div style="width:1000px; max-width:90vw; max-height:90vh; text-align:center; overflow:auto">
+    <div class="d-flex flex-row">
+        <div class="flex-grow-1" style="margin-top: -16px">
+            <MudTextField Margin="Margin.None" @bind-Value="URLText" Placeholder="URL to map json file"></MudTextField>
+        </div>
+        <div>
+            <MudButton Color="Color.Primary" OnClick="Create">Create iframe</MudButton>
+        </div>
+    </div>
+    @if (this.IFrameCode != "")
+    {
+        <MudTextField Style="width:100%; font-size:1em" T="string" Label="" AdornmentIcon="@Icons.Filled.CopyAll" Adornment="Adornment.End" OnAdornmentClick="CopyCode" Variant="Variant.Outlined" ReadOnly="true" Text="@IFrameCode" Lines="3" />
+        <div class="m-2" style="height:650px;">
+            <iframe width="100%" height="650" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="@FrameSrc"></iframe>
+        </div>
+    }
+</div>

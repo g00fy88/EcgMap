@@ -1,0 +1,20 @@
+﻿@page "/"
+<div style="width:100vw; height:100vh">
+    <div class="main">
+        <Map @ref="mapRef" MapOptions="@mapOptions"></Map>
+    </div>
+    <div class="sidebar">
+        <LocationsBar Locations="Locations" Map="mapRef"></LocationsBar>
+    </div>
+</div>
+
+<MudOverlay Visible="ShowOverlay" LightBackground="true" Style="background-color:rgba(255,255,255,0.6)" ZIndex="401">
+    <EmbedCreation UrlBase="@UrlBase()" ></EmbedCreation>
+</MudOverlay>
+
+<style>
+    #mapId {
+        width:100%;
+        height:100%;
+    }
+</style>

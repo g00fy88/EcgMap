@@ -1,0 +1,37 @@
+﻿<MudGrid Spacing="1" Justify="Justify.Center">
+    <MudItem Style="width: 100%; max-width: 400px" Class="scrollcontent">
+        <Searchbar Search="Search"></Searchbar>
+    </MudItem>
+    @foreach(var loc in Filtered)
+    {
+        <MudItem Style="width: 100%; max-width: 400px">
+            <MudCard Elevation="2" Style="cursor:pointer" @onclick="()=>ToggleLoc(loc)">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Filled.LocationOn"></MudIcon>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1" Style="font-size: 0.8rem">@loc.Title</MudText>
+                        <MudText Typo="Typo.subtitle2" Style="font-size: 0.8rem">@loc.Description</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                    @if(loc.Link != "")
+                    {
+                        <MudLink Href="@loc.Link" Target="_blank">
+                            <MudIconButton Icon="@Icons.Material.Filled.Language" Color="Color.Default" />
+                        </MudLink>
+                    }
+                    </CardHeaderActions>
+                </MudCardHeader>
+                @if(loc.Kind == "image")
+                {
+                    <MudCardMedia Image="@loc.ImageUrl" Height="140"/>
+                }
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
+
+@code {
+
+}
