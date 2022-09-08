@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="example.json" />
     <Content Remove="mapLocationsHamburg.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="example.json" />
   </ItemGroup>
 
   <ItemGroup>

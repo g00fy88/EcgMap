@@ -1,5 +1,5 @@
 ﻿<MudGrid Spacing="1" Justify="Justify.Center">
-    <MudItem Style="width: 100%; max-width: 400px" Class="scrollcontent">
+    <MudItem Style="width: 100%; max-width: 400px">
         <Searchbar Search="Search"></Searchbar>
     </MudItem>
     @foreach(var loc in Filtered)
@@ -12,7 +12,7 @@
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Typo="Typo.body1" Style="font-size: 0.8rem">@loc.Title</MudText>
-                        <MudText Typo="Typo.subtitle2" Style="font-size: 0.8rem">@loc.Description</MudText>
+                        <MudText Typo="Typo.subtitle2" Style="font-size: 0.75rem">@loc.Description</MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
                     @if(loc.Link != "")

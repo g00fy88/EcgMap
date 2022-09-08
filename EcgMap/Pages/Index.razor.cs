@@ -44,6 +44,12 @@ namespace EcgMap.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            //await InitMap(
+            //    new JSONOf(
+            //        new ResourceOf("example.json", this.GetType())
+            //    )
+            //);
+            //return;
             var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
             if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("locationsUrl", out var jsonUrls))
             {
@@ -56,39 +62,7 @@ namespace EcgMap.Pages
                     {
                         var text = await response.Content.ReadAsStringAsync();
                         var result = new JSONOf(text);
-                        this.Locations = new JsonLocations(result);
-                        await Task.Run(async () =>
-                        {
-                            while (this.mapRef == null)
-                            {
-                                await Task.Delay(100);
-                            }
-                        });
-                        if (await this.mapRef.IsInitialized())
-                        {
-                            await this.mapRef.SetView(
-                                new LatLng(
-                                    new DoubleOf(result.Value("center.lat")).Value(),
-                                    new DoubleOf(result.Value("center.lon")).Value()
-                                )
-                            );
-                            await this.mapRef.SetZoom(new IntOf(result.Value("center.zoom")).Value());
-                            foreach (var loc in this.Locations)
-                            {
-                                var marker =
-                                    await new FallbackMap<Task<Marker>>(
-                                        new MapOf<Task<Marker>>(
-                                            new KvpOf<Task<Marker>>("main", () => MainMarker(loc)),
-                                            new KvpOf<Task<Marker>>("company", () => CompanyMarker(loc))
-                                        ),
-                                        (key) => this.MarkerFactory.CreateAndAddToMap(new LatLng(loc.Latitude, loc.Longitude), this.mapRef)
-                                    )[loc.LocationType];
-                                await marker.BindPopup(loc.Title);
-                                loc.Marker = marker;
-                            }
-                        }
-
-                        Task.Run(() => MapWatch());
+                        await InitMap(result);
                     }
                 }
             }
@@ -103,6 +77,43 @@ namespace EcgMap.Pages
         public string UrlBase()
         {
             return this.NavManager.BaseUri;
+        }
+
+        private async Task InitMap(IJSON locations)
+        {
+            this.Locations = new JsonLocations(locations);
+            await Task.Run(async () =>
+            {
+                while (this.mapRef == null)
+                {
+                    await Task.Delay(100);
+                }
+            });
+            if (await this.mapRef.IsInitialized())
+            {
+                await this.mapRef.SetView(
+                    new LatLng(
+                        new DoubleOf(locations.Value("center.lat")).Value(),
+                        new DoubleOf(locations.Value("center.lon")).Value()
+                    )
+                );
+                await this.mapRef.SetZoom(new IntOf(locations.Value("center.zoom")).Value());
+                foreach (var loc in this.Locations)
+                {
+                    var marker =
+                        await new FallbackMap<Task<Marker>>(
+                            new MapOf<Task<Marker>>(
+                                new KvpOf<Task<Marker>>("main", () => MainMarker(loc)),
+                                new KvpOf<Task<Marker>>("company", () => CompanyMarker(loc))
+                            ),
+                            (key) => this.MarkerFactory.CreateAndAddToMap(new LatLng(loc.Latitude, loc.Longitude), this.mapRef)
+                        )[loc.LocationType];
+                    await marker.BindPopup(loc.Title);
+                    loc.Marker = marker;
+                }
+            }
+
+            Task.Run(() => MapWatch());
         }
 
         private async Task MapWatch()
